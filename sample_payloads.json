@@ -1,0 +1,14 @@
+{
+  "lead_intake_webhook_sample": {
+    "name": "Alex Morgan",
+    "email": "alex@example-company.com",
+    "company_size": "25-50",
+    "message": "We want to automate incoming lead scoring and sync qualified leads into our CRM and Slack."
+  },
+  "support_ticket_webhook_sample": {
+    "ticket_id": "TCK-4821",
+    "email": "user@example.com",
+    "subject": "Webhook returning 401 on production endpoint",
+    "message": "Hi team, our n8n HTTP Request node returns 401 unauthorized after rotating API tokens."
+  }
+}

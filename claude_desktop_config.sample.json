@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "business-tools-demo": {
+      "command": "python",
+      "args": [
+        "/ABSOLUTE/PATH/TO/mcp_server_demo/mcp_business_tools_server.py"
+      ]
+    }
+  }
+}

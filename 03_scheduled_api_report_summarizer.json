@@ -1,0 +1,53 @@
+{
+  "name": "Demo 3 - Automated Daily Operations & KPI Report (Portfolio Sample)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 24
+            }
+          ]
+        }
+      },
+      "id": "3c1b2c3d-0001-4000-8000-000000000001",
+      "name": "Daily 08:00 Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Demo sample KPI dataset (replace with database or REST API node in production)\nconst metrics = {\n  date: new Date().toISOString().slice(0, 10),\n  orders_completed: 42,\n  gross_revenue_usd: 3890,\n  failed_jobs: 1,\n  avg_response_ms: 210\n};\nreturn [{ json: metrics }];"
+      },
+      "id": "3c1b2c3d-0002-4000-8000-000000000002",
+      "name": "Aggregate Daily KPIs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const m = $input.first().json;\nconst report = `Daily Executive Digest (${m.date})\\n` +\n  `- Orders Completed: ${m.orders_completed}\\n` +\n  `- Revenue: $${m.gross_revenue_usd}\\n` +\n  `- Failed Background Jobs: ${m.failed_jobs}\\n` +\n  `- Avg API Latency: ${m.avg_response_ms}ms`;\nreturn [{ json: { ...m, formatted_digest: report } }];"
+      },
+      "id": "3c1b2c3d-0003-4000-8000-000000000003",
+      "name": "Build Executive Digest",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    }
+  ],
+  "connections": {
+    "Daily 08:00 Trigger": {
+      "main": [[{ "node": "Aggregate Daily KPIs", "type": "main", "index": 0 }]]
+    },
+    "Aggregate Daily KPIs": {
+      "main": [[{ "node": "Build Executive Digest", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
